@@ -114,6 +114,10 @@ public class Game
             case GO:
                 goRoom(command);
                 break;
+                
+            case EAT:
+                eat();
+                break;
 
             case QUIT:
                 wantToQuit = quit(command);
@@ -178,5 +182,13 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
+    }
+    
+    /**
+     * Eat an item to fill hunger.
+     */
+    private void eat()
+    {
+        System.out.println("You have just eaten food and are no longer hungry");
     }
 }
