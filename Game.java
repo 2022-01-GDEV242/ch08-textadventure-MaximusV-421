@@ -123,6 +123,10 @@ public class Game
                 goRoom(command);
                 break;
                 
+            case LOOK:
+                look();
+                break;
+                
             case QUIT:
                 wantToQuit = quit(command);
                 break;
