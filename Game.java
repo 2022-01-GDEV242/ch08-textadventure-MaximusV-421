@@ -30,6 +30,14 @@ public class Game
     }
 
     /**
+     * Start the game and begin the adventure.
+     */
+    public static void main(String[] args){
+        Game game = new Game();
+        game.play();
+    }
+    
+    /**
      * Create all the rooms and link their exits together.
      */
     private void createRooms()
@@ -114,7 +122,7 @@ public class Game
             case GO:
                 goRoom(command);
                 break;
-
+                
             case QUIT:
                 wantToQuit = quit(command);
                 break;
@@ -164,6 +172,14 @@ public class Game
         }
     }
 
+    /**
+     * Looks at something and describes what the image may be.
+     */
+    private void look()
+    {
+        System.out.println(currentRoom.getLongDescription());
+    }
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
