@@ -1,6 +1,7 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Class Room - a room in an adventure game.
@@ -17,6 +18,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
+    ArrayList<Item> items = new ArrayList<Item>();
 
     /**
      * Create a room described "description". Initially, it has
@@ -33,7 +35,7 @@ public class Room
     /**
      * Define an exit from this room.
      * @param direction The direction of the exit.
-     * @param neighbor  The room to which the exit leads.
+     * @param neighbor The room to which the exit leads.
      */
     public void setExit(String direction, Room neighbor) 
     {
@@ -68,10 +70,11 @@ public class Room
     private String getExitString()
     {
         String returnString = "Exits:";
-        Set<String> keys = exits.keySet();
-        for(String exit : keys) {
-            returnString += " " + exit;
-        }
+        Set keys = exits.keySet();
+        for(Iterator iter = keys.iterator(); iter.hasNext(); )
+            returnString += " " + iter.next();
+        returnString += "\nItems in the room:\n";
+        returnString += getRoomItems();
         return returnString;
     }
 
@@ -84,6 +87,61 @@ public class Room
     public Room getExit(String direction) 
     {
         return exits.get(direction);
+    }
+    
+    /**
+     * Get items from the room.
+     * @param inventory index.
+     * @return the item being picked up.
+     */
+    public Item getItem(int index) {
+        return items.get(index);
+    }
+    
+    /**
+     * Get items from the room.
+     * @return nothing if item doesn't exist.
+     * @param item to get.
+     */
+    public Item getItem(String itemName) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getDescription().equals(itemName)) {
+                return items.get(i);
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Remove items from inventory.
+     * @param item to be removed.
+     */
+    public void removeItem(String itemName) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getDescription().equals(itemName)) {
+                items.remove(i);
+            }
+        }
+    }
+    
+    /**
+     * Set a particular item in the room.
+     * @param item to be set.
+     */
+    public void setItem(Item newitem) {
+        items.add(newitem);
+    }
+    
+    /**
+     * Get a description of the items in a room.
+     * @return items on ground.
+     */
+    public String getRoomItems() {
+        String output = "";
+        for (int i = 0; i < items.size(); i++) {
+            output += items.get(i).getDescription() + " ";
+        }
+        return output;
     }
 }
 

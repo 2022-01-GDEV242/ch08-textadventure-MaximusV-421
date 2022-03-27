@@ -1,8 +1,11 @@
+import java.util.ArrayList;
+
 /**
  *  To play this game, create an instance of this class and call the "play"
  *  method.
  *  
- *  Nuka World is a spinoff I created that has similar locations in fallout lore.
+ *  Nuka World is a spinoff I created that has similar locations in fallout lore. The player will explore the wasteland, manage inventory, and
+ *  win by reaching junktown.
  * 
  *  This main class creates and initialises all the others: it creates all
  *  rooms, creates the parser and starts the game.  It also evaluates and
@@ -19,6 +22,7 @@ public class Game
     Room the_hub, control_room, raider_camp, boneyard, offices, military_base;
     Room water_station, broken_hills, the_den, cathedral, junktown, vault_303;
     Room hot_springs, shimmering_cliffs, toxic_caves;
+    ArrayList<Item> inventory = new ArrayList<Item>();
         
     /**
      * Create the game and initialise its internal map.
@@ -29,6 +33,9 @@ public class Game
         parser = new Parser();
     }
     
+    /**
+     * Create a main method that allows the game to be run outside of BlueJ
+     */
     public static void main(String[] args) {
         Game mygame = new Game();
         mygame.play();
@@ -48,13 +55,13 @@ public class Game
         water_station = new Room("long forgotten water station");
         broken_hills = new Room("place of both hope and defeat (broken hills)");
         vault_303 = new Room("old vault from the war that has been infiltrated by raiders");
-        hot_springs = new Room("thermic energy grounds with lush life (hot srpings)");
+        hot_springs = new Room("thermic energy grounds with lush life (hot springs)");
         shimmering_cliffs = new Room("steep cliffs of rock (shimmering cliffs)");
         cathedral = new Room("meeting place for religous folk (cathedral)");
         military_base = new Room("abondoned military base filled with arms and ammo");
         the_den = new Room("den owned by the machine gunners clan");
         toxic_caves = new Room("toxic caves that are crawling with super mutants and other wild specimen");
-        junktown = new Room("A place of civilization and trading");
+        junktown = new Room("place of civilization and trading (junktown)");
         
         // initialise room exits
         the_hub.setExit("north", control_room);
@@ -111,6 +118,11 @@ public class Game
         toxic_caves.setExit("west", the_den);
     
         currentRoom = the_hub;  // start game at the hub
+        
+        inventory.add(new Item("Stimpak"));
+        offices.setItem(new Item("Securitron"));
+        vault_303.setItem(new Item("Buffout"));
+        military_base.setItem(new Item("Pistol"));
     }
 
     /**
@@ -165,7 +177,7 @@ public class Game
                 break;
 
             case GO:
-                goRoom(command);
+                wantToQuit = goRoom(command);
                 break;
                 
             case LOOK:
@@ -175,12 +187,95 @@ public class Game
             case EAT:
                 eat();
                 break;
+                
+            case INVENTORY:
+                printInventory();
+                break;
+                
+            case GET:
+                getItem(command);
+                break;
+                
+            case DROP:
+                dropItem(command);
+                break;
 
             case QUIT:
                 wantToQuit = quit(command);
                 break;
         }
         return wantToQuit;
+    }
+    
+    /**
+     * Create a way for the player to pickup an item that is on the ground of the current room.
+     * @param command The command to be processed.
+     */
+    private void getItem(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to get...
+            System.out.println("Get what?");
+            return;
+        }
+
+        String item = command.getSecondWord();
+
+        // Try to leave current room.
+        Item newItem = currentRoom.getItem(item);
+
+        if (newItem == null) {
+            System.out.println("That item is not here!");
+        }
+        else {
+            inventory.add(newItem);
+            currentRoom.removeItem(item);
+            System.out.println("Picked up: " + item);
+        }
+    }
+    /**
+     * Create a way for the player to drop an item on the ground of the current room and leave it in that room.
+     * @param command The command to be processed.
+     */
+    private void dropItem(Command command) 
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to drop...
+            System.out.println("Drop what?");
+            return;
+        }
+
+        String item = command.getSecondWord();
+
+        // Try to leave current room.
+        Item newItem = null;
+        int index = 0;
+        for (int i = 0; i < inventory.size(); i++) {
+            if (inventory.get(i).getDescription().equals(item)) {
+                newItem = inventory.get(i);
+                index = i;
+            }
+        }
+        if (newItem == null) {
+            System.out.println("That item is not in your inventory!");
+        }
+        else {
+            inventory.remove(index);
+            currentRoom.setItem(new Item(item));
+            System.out.println("Dropped: " + item);
+        }
+    }
+    
+    /**
+     * Create a way for the player to see what they're carrying.
+     */
+    private void printInventory() {
+        String output = "";
+        for (int i = 0; i < inventory.size(); i++) {
+            output += inventory.get(i).getDescription() + " ";
+        }
+        System.out.println("You are carrying:");
+        System.out.println(output);
     }
 
     // implementations of user commands:
@@ -202,13 +297,15 @@ public class Game
     /** 
      * Try to go in one direction. If there is an exit, enter the new
      * room, otherwise print an error message.
+     * @param command The command to be processed.
+     * @return true if the player reaches junktown, return false otherwise.
      */
-    private void goRoom(Command command) 
+    private boolean goRoom(Command command) 
     {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
-            return;
+            return false;
         }
 
         String direction = command.getSecondWord();
@@ -222,7 +319,12 @@ public class Game
         else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
+            if (currentRoom == junktown) {
+                System.out.println("You win!");
+                return true;
+            }
         }
+        return false;
     }
 
     /** 
@@ -242,7 +344,7 @@ public class Game
     }
     
     /**
-     * Look at something.
+     * Look at something. This method will matter more in a later update.
      */
     private void look()
     {
@@ -250,7 +352,7 @@ public class Game
     }
     
     /**
-     * Eat and fill hunger, this method will matter in a later update.
+     * Eat and fill hunger. This method will matter more in a later update.
      */
     private void eat()
     {
