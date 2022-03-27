@@ -1,6 +1,8 @@
 /**
  *  To play this game, create an instance of this class and call the "play"
  *  method.
+ *  
+ *  Nuka World is a spinoff I created that has similar locations in fallout lore.
  * 
  *  This main class creates and initialises all the others: it creates all
  *  rooms, creates the parser and starts the game.  It also evaluates and
