@@ -121,8 +121,10 @@ public class Game
         
         inventory.add(new Item("Stimpak"));
         offices.setItem(new Item("Securitron"));
+        offices.setItem(new Item("Processor"));
         vault_303.setItem(new Item("Buffout"));
         military_base.setItem(new Item("Pistol"));
+        raider_camp.setItem(new Item("PistolAmmo"));
     }
 
     /**
@@ -274,7 +276,7 @@ public class Game
         for (int i = 0; i < inventory.size(); i++) {
             output += inventory.get(i).getDescription() + " ";
         }
-        System.out.println("You are carrying:");
+        System.out.println("You are carrying: ");
         System.out.println(output);
     }
 
