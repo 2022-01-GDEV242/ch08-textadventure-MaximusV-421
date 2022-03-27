@@ -14,6 +14,9 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    Room the_hub, control_room, raider_camp, boneyard, offices, military_base;
+    Room water_station, broken_hills, the_den, cathedral, junktown, vault_303;
+    Room hot_springs, shimmering_cliffs, toxic_caves;
         
     /**
      * Create the game and initialise its internal map.
@@ -23,36 +26,89 @@ public class Game
         createRooms();
         parser = new Parser();
     }
+    
+    public static void main(String[] args) {
+        Game mygame = new Game();
+        mygame.play();
+    }
 
     /**
      * Create all the rooms and link their exits together.
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
-      
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        the_hub = new Room("Main starting point of Nuka World");
+        control_room = new Room("Abondoned control room that no longer functions");
+        offices = new Room("Old offices that have been infected by rats");
+        boneyard = new Room("A graveyard of misery and malice");
+        raider_camp = new Room("Camp full of heartless raiders");
+        water_station = new Room("Long forgotten water station");
+        broken_hills = new Room("A place of both hope and defeat");
+        vault_303 = new Room("Vault from the war that has been infiltrated by raiders");
+        hot_springs = new Room("Thermic energy grounds with lush life");
+        shimmering_cliffs = new Room("Steep cliffs of rock");
+        cathedral = new Room("Meeting place for religous folk");
+        military_base = new Room("Abondoned military base filled with arms and ammo");
+        the_den = new Room("Owned by the machine gunners clan");
+        toxic_caves = new Room("Crawling with super mutants and other wild specimen");
+        junktown = new Room("A place of civilization and trading");
         
         // initialise room exits
-        outside.setExit("east", theater);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
-
-        theater.setExit("west", outside);
-
-        pub.setExit("east", outside);
-
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
-
-        office.setExit("west", lab);
-
-        currentRoom = outside;  // start game outside
+        the_hub.setExit("north", control_room);
+        the_hub.setExit("south", offices);
+        the_hub.setExit("east", water_station);
+        the_hub.setExit("west", boneyard);
+        
+        control_room.setExit("west", raider_camp);
+        control_room.setExit("south", the_hub);
+        
+        offices.setExit("north", the_hub);
+        offices.setExit("south", military_base);
+        offices.setExit("east", broken_hills);
+        
+        water_station.setExit("south", broken_hills);
+        water_station.setExit("east", hot_springs);
+        water_station.setExit("west", the_hub);
+        
+        boneyard.setExit("north", raider_camp);
+        boneyard.setExit("east", the_hub);
+        
+        raider_camp.setExit("south", boneyard);
+        raider_camp.setExit("east", control_room);
+        
+        broken_hills.setExit("north", water_station);
+        broken_hills.setExit("south", the_den);
+        broken_hills.setExit("east", shimmering_cliffs);
+        broken_hills.setExit("west", offices);
+        
+        shimmering_cliffs.setExit("north", hot_springs);
+        shimmering_cliffs.setExit("south", toxic_caves);
+        shimmering_cliffs.setExit("west", broken_hills);
+        
+        hot_springs.setExit("north", vault_303);
+        hot_springs.setExit("south", shimmering_cliffs);
+        hot_springs.setExit("west", water_station);
+        
+        vault_303.setExit("south", hot_springs);
+        
+        military_base.setExit("north", offices);
+        military_base.setExit("east", the_den);
+        military_base.setExit("west", cathedral);
+        
+        cathedral.setExit("south", junktown);
+        cathedral.setExit("east", military_base);
+        
+        junktown.setExit("north", cathedral);
+        
+        the_den.setExit("north", broken_hills);
+        the_den.setExit("east", toxic_caves);
+        the_den.setExit("west", military_base);
+        
+        toxic_caves.setExit("north", shimmering_cliffs);
+        toxic_caves.setExit("west", the_den);
+    
+        currentRoom = the_hub;  // start game at the hub
     }
 
     /**
