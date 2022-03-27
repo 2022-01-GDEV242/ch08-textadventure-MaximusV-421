@@ -1,7 +1,4 @@
 /**
- * This class is part of the "World of Zuul" application. 
- * "World of Zuul" is a very simple, text based adventure game.  
- *
  * This class holds information about a command that was issued by the user.
  * A command currently consists of two parts: a CommandWord and a string
  * (for example, if the command was "take map", then the two parts
@@ -13,8 +10,8 @@
  *
  * If the command had only one word, then the second word is <null>.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author  Maximus Vancaneghem
+ * @version 2022.03.25
  */
 
 public class Command
