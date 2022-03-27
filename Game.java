@@ -38,20 +38,20 @@ public class Game
     private void createRooms()
     {
         // create the rooms
-        the_hub = new Room("Main starting point of Nuka World");
-        control_room = new Room("Abondoned control room that no longer functions");
-        offices = new Room("Old offices that have been infected by rats");
-        boneyard = new Room("A graveyard of misery and malice");
-        raider_camp = new Room("Camp full of heartless raiders");
-        water_station = new Room("Long forgotten water station");
-        broken_hills = new Room("A place of both hope and defeat");
-        vault_303 = new Room("Vault from the war that has been infiltrated by raiders");
-        hot_springs = new Room("Thermic energy grounds with lush life");
-        shimmering_cliffs = new Room("Steep cliffs of rock");
-        cathedral = new Room("Meeting place for religous folk");
-        military_base = new Room("Abondoned military base filled with arms and ammo");
-        the_den = new Room("Owned by the machine gunners clan");
-        toxic_caves = new Room("Crawling with super mutants and other wild specimen");
+        the_hub = new Room("main starting point of Nuka World (the hub)");
+        control_room = new Room("abondoned control room that no longer functions");
+        offices = new Room("old offices that have been infected by rats");
+        boneyard = new Room("boneyard of misery and malice");
+        raider_camp = new Room("camp full of heartless raiders");
+        water_station = new Room("long forgotten water station");
+        broken_hills = new Room("place of both hope and defeat (broken hills)");
+        vault_303 = new Room("old vault from the war that has been infiltrated by raiders");
+        hot_springs = new Room("thermic energy grounds with lush life (hot srpings)");
+        shimmering_cliffs = new Room("steep cliffs of rock (shimmering cliffs)");
+        cathedral = new Room("meeting place for religous folk (cathedral)");
+        military_base = new Room("abondoned military base filled with arms and ammo");
+        the_den = new Room("den owned by the machine gunners clan");
+        toxic_caves = new Room("toxic caves that are crawling with super mutants and other wild specimen");
         junktown = new Room("A place of civilization and trading");
         
         // initialise room exits
@@ -135,8 +135,8 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Welcome to Nuka World!");
+        System.out.println("Nuka World is a spinoff of the fallout series.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println();
         System.out.println(currentRoom.getLongDescription());
@@ -191,7 +191,7 @@ public class Game
     private void printHelp() 
     {
         System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
+        System.out.println("around in the wasteland.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.showCommands();
