@@ -19,6 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room previousRoom;
     Room the_hub, control_room, raider_camp, boneyard, offices, military_base;
     Room water_station, broken_hills, the_den, cathedral, junktown, vault_303;
     Room hot_springs, shimmering_cliffs, toxic_caves;
@@ -201,6 +202,10 @@ public class Game
             case DROP:
                 dropItem(command);
                 break;
+                
+            case BACK:
+                goBack(command);
+                break;
 
             case QUIT:
                 wantToQuit = quit(command);
@@ -235,6 +240,7 @@ public class Game
             System.out.println("Picked up: " + item);
         }
     }
+    
     /**
      * Create a way for the player to drop an item on the ground of the current room and leave it in that room.
      * @param command The command to be processed.
@@ -319,6 +325,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            previousRoom = currentRoom;
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
             if (currentRoom == junktown) {
@@ -328,6 +335,33 @@ public class Game
         }
         return false;
     }
+    
+    /**
+     * Enters the specified room and prints the description.
+     */
+    private void enterRoom(Room nextRoom)
+    {
+        previousRoom = currentRoom;
+        currentRoom = nextRoom;
+        System.out.println(currentRoom.getLongDescription());
+    } 
+ 
+    /**
+     * Go back to the previous room.
+     */
+    private void goBack(Command command)
+    {
+        if(command.hasSecondWord()) {
+            System.out.println("Back where?");
+            return;
+        }
+        if (previousRoom == null) {
+            System.out.println("You have nowhere to go back to!");
+        }
+        else {
+            enterRoom(previousRoom);
+        }
+    } 
 
     /** 
      * "Quit" was entered. Check the rest of the command to see
