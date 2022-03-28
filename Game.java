@@ -337,7 +337,7 @@ public class Game
     }
     
     /**
-     * Enters the specified room and prints the description.
+     * Enter a room and print out description.
      */
     private void enterRoom(Room nextRoom)
     {
@@ -347,7 +347,7 @@ public class Game
     } 
  
     /**
-     * Go back to the previous room.
+     * Go back in the direction you came. This only works once for now.
      */
     private void goBack(Command command)
     {
